@@ -1,141 +1,109 @@
 "use client";
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow } from "swiper/modules";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+// Swiper Styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
 
-function CardContent() {
-  const sp = useSearchParams();
-  const [profileImg, setProfileImg] = useState(null);
+import IdFlipCard from "./components/IdFlipCard";
+import IdCardFront from "./IdCardFront";
+import IdName from "./IdName";
+import OrderFile from "./File";
+import Footer from "../Footer";
 
-  useEffect(() => {
-    const savedImg = localStorage.getItem("userProfileImg");
-    if (savedImg) setProfileImg(savedImg);
-  }, []);
-
-
-  const data = {
-    ovog: (sp.get("ovog") || "БОРЖИГОН").toUpperCase(),
-    surname: (sp.get("surname") || "ЛХАГВАСҮРЭН").toUpperCase(),
-    givenName: (sp.get("givenName") || "УЯНГА").toUpperCase(),
-    sex: (sp.get("sex") || "ЭМЭГТЭЙ").toUpperCase(),
-    Number: sp.get("Number") || "392346426872",
-    dob: sp.get("dob") || "2004/11/29",
-    expiryDate: sp.get("expiryDate") || "2029/11/29",
-    issueDate: sp.get("issueDate") || "2021/01/28",
-  };
-
-  // Figma загварын тогтмол стилүүд
-  const brandColor = "text-[#025C8C]"; // Тэрхүү өвөрмөц цэнхэр өнгө
-  const labelBase = `${brandColor} text-[10.5px] font-bold leading-[1.1] tracking-tight`;
-  const englishLabel = `${brandColor} text-[10px] font-normal italic ml-1`;
-  const valueText = "text-[#1E1E1E] text-[11.5px] font-semibold mt-0.5 mb-1 uppercase tracking-tight";
+export default function Page() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center gap-12 py-16 font-inter">
-      
-      {/* FRONT SIDE - Үнэмлэхний урд тал */}
-      <div 
-        className="relative w-[450px] h-[282px] bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200"
-        style={{ 
-          backgroundImage: "url('/images/IdCard.png')", 
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat' 
-        }}
-      >
-        {/* Толгойн бичвэр */}
-        <div className="absolute top-[22px] left-[132px] flex flex-col items-start">
-          <h1 className={`${brandColor} text-[12.5px] font-extrabold leading-none tracking-normal`}>
-            МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ
-          </h1>
-          <h2 className={`${brandColor} text-[10.5px] font-semibold leading-none mt-[3px]`}>
-            CITIZEN IDENTITY CARD MONGOLIA
-          </h2>
-        </div>
+    <div className="relative min-h-screen bg-[#F4F9FF] flex flex-col items-center pt-10 font-inter overflow-x-hidden">
+      <IdName />
 
-        {/* Цээж зураг - */}
-        <div className="absolute top-[75px] left-[26px] w-[105px] h-[132px] bg-white border-[0.5px] border-gray-300 overflow-hidden shadow-sm">
-          {profileImg ? (
-            <img src={profileImg} className="w-full h-full object-cover shadow-inner" alt="Citizen" />
-          ) : (
-            <div className="w-full h-full bg-[#F3F4F6] flex items-center justify-center text-[10px] text-gray-400">PHOTO</div>
-          )}
-        </div>
+      {/* Header хэсэг */}
+      <div className="w-full max-w-[450px] flex justify-between items-center px-6 mt-8">
+        <h1 className="text-[18px] font-bold text-[#1E1E1E]">Миний бичиг баримтууд</h1>
+        <button className="bg-[#E6EBF4] text-[#5A6B8D] px-4 py-1.5 rounded-full text-sm font-medium">
+          Шинэчлэх
+        </button>
+      </div>
 
-        <div className="absolute top-[72px] left-[146px] flex flex-col w-[270px]">
-          <div className="h-[36px]">
-            <p className={labelBase}>Овог <span className={englishLabel}>Family name</span></p>
-            <p className={valueText}>{data.ovog}</p>
-          </div>
+      {/* 1. Carousel хэсэг - Энэ хэсэгт зөвхөн Front харагдана */}
+      <div className="w-full py-10">
+        <Swiper
+          effect={"coverflow"}
+          centeredSlides={true}
+          slidesPerView={"auto"}
+          loop={true}
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 150, // Картууд хоорондоо давхцах зай
+            depth: 100,
+            modifier: 1,
+            slideShadows: false,
+          }}
+          modules={[EffectCoverflow]}
+          className="mySwiper !overflow-visible"
+        >
+          {[1, 2, 3].map((id) => (
+            <SwiperSlide key={id} className="!w-fit" onClick={() => setIsModalOpen(true)}>
+              <div className="cursor-pointer active:scale-95 transition-transform duration-200">
+                <IdCardFront />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
-          <div className="h-[36px]">
-            <p className={labelBase}>Эцэг/ эх /-ийн нэр <span className={englishLabel}>Surname</span></p>
-            <p className={valueText}>{data.surname}</p>
-          </div>
+      <OrderFile />
+      <Footer />
+
+      {/* 2. Modal Logic - Зураг дээрх шиг арын Blur-тэй */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-end justify-center">
           
-          <div className="h-[36px]">
-            <p className={labelBase}>Нэр <span className={englishLabel}>Given name</span></p>
-            <p className={valueText}>{data.givenName}</p>
-          </div>
+          {/* Арын бүдгэрүүлэгч (Overlay with Blur) */}
+          <div 
+            className="fixed inset-0 bg-black/20 backdrop-blur-md transition-opacity" 
+            onClick={() => setIsModalOpen(false)} 
+          />
 
-          <div className="flex gap-10 h-[36px]">
-            <div>
-              <p className={labelBase}>Хүйс <span className={englishLabel}>Sex</span></p>
-              <p className={valueText}>{data.sex}</p>
+          {/* Modal-ийн цагаан цонх */}
+          <div className="relative bg-white w-full max-w-[500px] rounded-t-[32px] p-6 shadow-2xl animate-in slide-in-from-bottom duration-500 ease-out z-[110]">
+            
+            {/* Дээд талын бариул */}
+            <div className="w-12 h-1.5 bg-[#E0E0E0] rounded-full mx-auto mb-4" />
+            
+            <p className="text-center font-semibold text-[#1E1E1E] mb-6">Иргэний үнэмлэх</p>
+
+            <div className="border-t border-gray-100 mb-6" />
+
+            {/* Modal доторх эргэдэг карт */}
+            <div className="flex justify-center">
+              <IdFlipCard />
             </div>
-            <div>
-              <p className={labelBase}>Төрсөн он, сар, өдөр <span className={englishLabel}>Date of birth</span></p>
-              <p className={valueText}>{data.dob}</p>
+
+            {/* Товчлуурнууд */}
+            <div className="space-y-3 mt-8 pb-4">
+              <button className="w-full bg-[#1A5CFF] text-white font-bold py-4 rounded-2xl active:scale-95 transition-all">
+                Лавлагаа авах
+              </button>
+              <button className="w-full bg-[#F0F4FF] text-[#1A5CFF] font-bold py-4 rounded-2xl active:scale-95 transition-all">
+                Дахин захиалах
+              </button>
             </div>
           </div>
-
-          <div className="mt-1">
-            <p className={labelBase}>Иргэний бүртгэлийн дугаар <span className={englishLabel}>Civil identification</span></p>
-            <p className="text-[#1E1E1E] text-[13.5px] font-bold mt-1 tracking-[0.15em]">
-              {data.Number}
-            </p>
-          </div>
         </div>
-      </div>
+      )}
 
-
-      {/* BACK SIDE - Үнэмлэхний ар тал */}
-
-
-      <div 
-        className="relative w-[450px] h-[282px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
-        style={{ 
-          backgroundImage: "url('/images/IdCardBack.png')", 
-          backgroundSize: '100% 100%',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        {/* Олгосон байгууллагын мэдээлэл */}
-        <div className="absolute top-[20px] w-full text-center space-y-[1px]">
-          <p className={`${brandColor} text-[9.5px] font-medium`}>Олгосон байгууллага Issuing authority</p>
-          <p className={`${brandColor} text-[13px] font-extrabold uppercase`}>Улсын Бүртгэлийн Ерөнхий Газар</p>
-          <p className={`${brandColor} text-[9.5px] font-medium`}>The General Authority for State Registration</p>
-        </div>
-
-        {/* Ар талын огноонууд */}
-        <div className="absolute top-[92px] left-[155px] space-y-6">
-          <div>
-            <p className={labelBase}>Олгосон он, сар, өдөр <span className={englishLabel}>Date of issue</span></p>
-            <p className="text-[12px] font-bold text-[#1E1E1E] mt-1">{data.issueDate}</p>
-          </div>
-          <div>
-            <p className={labelBase}>Хүчинтэй хугацаа <span className={englishLabel}>Date of expiry</span></p>
-            <p className="text-[12px] font-bold text-[#1E1E1E] mt-1">{data.expiryDate}</p>
-          </div>
-        </div>
-      </div>
-
+      <style jsx global>{`
+        .swiper { overflow: visible !important; }
+        .animate-in { animation: slideUp 0.4s ease-out forwards; }
+        @keyframes slideUp {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+      `}</style>
     </div>
-  );
-}
-export default function Card() {
-  return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Уншиж байна...</div>}>
-      <CardContent />
-    </Suspense>
   );
 }
