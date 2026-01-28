@@ -27,7 +27,7 @@ export default function IdFlipCard() {
             WebkitBackfaceVisibility: "hidden",
           }}
         >
-          {/* Сэрэмжлүүлэг: Хэрэв карт чинь 450px-ээс бага дэлгэц дээр хасагдаад байвал scale ашиглана */}
+  
           <div className="scale-[0.7] xs:scale-[0.8] sm:scale-100 origin-center transition-transform">
             <IdCardFront />
           </div>
