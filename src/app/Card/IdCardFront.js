@@ -38,7 +38,7 @@ export default function IdCardFront() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Header */}
+
       <div className="absolute top-[22px] left-[132px]">
         <p className="text-[#025C8C] text-[12.5px] font-extrabold">
           МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ
@@ -48,7 +48,6 @@ export default function IdCardFront() {
         </p>
       </div>
 
-      {/* Photo */}
       <div className="absolute top-[75px] left-[26px] w-[105px] h-[132px] bg-white border border-[#D1D1D1] overflow-hidden">
         {profileImg ? (
           <img
