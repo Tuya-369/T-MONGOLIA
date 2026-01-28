@@ -1,10 +1,9 @@
 import Password from "./password";
 
 export default function Home() {
-  return(
+  return (
     <div>
-<Password />
+      <Password />
     </div>
-
-  ) 
+  );
 }

@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 export default function IdCardFront() {
   const sp = useSearchParams();
   const [profileImg, setProfileImg] = useState(null);
+  const x = () => {
+    console.log("hi");
+  };
 
   useEffect(() => {
     const img = localStorage.getItem("userProfileImg");
@@ -21,16 +24,13 @@ export default function IdCardFront() {
     Number: sp.get("Number") || "392346426872",
   };
 
-  const labelBase =
-    "text-[#025C8C] text-[10px] font-semibold leading-[11px]";
-  const englishLabel =
-    "text-[#025C8C] text-[9.5px] italic ml-[2px]";
-  const valueText =
-    "text-[#1E1E1E] text-[10.8px] uppercase";
+  const labelBase = "text-[#025C8C] text-[10px] font-semibold leading-[11px]";
+  const englishLabel = "text-[#025C8C] text-[9.5px] italic ml-[2px]";
+  const valueText = "text-[#1E1E1E] text-[10.8px] uppercase";
 
   return (
     <div
-      className="relative w-[450px] h-[282px] rounded-[18px] overflow-hidden"
+      className="relative w-[450px] h-[282px] rounded-[18px] shadow-lg cursor-pointer"
       style={{
         backgroundImage: "url('/images/IdCard.png')",
         backgroundSize: "cover",
@@ -51,7 +51,11 @@ export default function IdCardFront() {
       {/* Photo */}
       <div className="absolute top-[75px] left-[26px] w-[105px] h-[132px] bg-white border border-[#D1D1D1] overflow-hidden">
         {profileImg ? (
-          <img src={profileImg} className="w-full h-full object-cover" />
+          <img
+            src={profileImg || "/default-avatar.png"} // хоосон байхаас сэргийлнэ
+            alt="Иргэний зураг"
+            className="w-full h-full object-cover"
+          />
         ) : (
           <div className="w-full h-full bg-[#E6E6E6]" />
         )}
@@ -101,7 +105,7 @@ export default function IdCardFront() {
             Иргэний бүртгэлийн дугаар{" "}
             <span className={englishLabel}>Civil identification</span>
           </p>
-          <p className="text-[#333333] text-[12px] tracking-[0.28em] mt-[3px]">
+          <p className="text-[13px] font-normal text-[#000000] leading-tight">
             {data.Number}
           </p>
         </div>

@@ -8,10 +8,8 @@ export default function IdCardBack() {
   const issueDate = sp.get("issueDate") || "2021/01/28";
   const expiryDate = sp.get("expiryDate") || "2029/11/29";
 
-  const labelBase =
-    "text-[#025C8C] text-[10px] font-semibold leading-[11px]";
-  const englishLabel =
-    "text-[#025C8C] text-[9.5px] italic ml-[2px]";
+  const labelBase = "text-[#025C8C] text-[10px] font-semibold leading-[11px]";
+  const englishLabel = "text-[#025C8C] text-[9.5px] italic ml-[2px]";
 
   return (
     <div
@@ -41,9 +39,7 @@ export default function IdCardBack() {
             Олгосон он, сар, өдөр{" "}
             <span className={englishLabel}>Date of issue</span>
           </p>
-          <p className="text-[11px] text-[#2F2F2F] mt-[2px]">
-            {issueDate}
-          </p>
+          <p className="text-[11px] text-[#2F2F2F] mt-[2px]">{issueDate}</p>
         </div>
 
         <div>
@@ -51,9 +47,7 @@ export default function IdCardBack() {
             Хүчинтэй хугацаа{" "}
             <span className={englishLabel}>Date of expiry</span>
           </p>
-          <p className="text-[11px] text-[#2F2F2F] mt-[2px]">
-            {expiryDate}
-          </p>
+          <p className="text-[11px] text-[#2F2F2F] mt-[2px]">{expiryDate}</p>
         </div>
       </div>
     </div>

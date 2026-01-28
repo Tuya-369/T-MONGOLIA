@@ -13,7 +13,7 @@ const menu = [
 
 export default function ProfileMenu() {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 w-[100%] max-w-md px-4 mt-6 mb-10">
       {menu.map((item, i) => (
         <div
           key={i}

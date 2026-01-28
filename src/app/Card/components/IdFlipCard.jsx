@@ -1,3 +1,4 @@
+// components/IdFlipCard.js
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -8,29 +9,42 @@ export default function IdFlipCard() {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div 
-      className="flex justify-center items-center py-4 cursor-pointer select-none" 
-      style={{ perspective: "2000px" }}
+    <div
+      className="w-full flex justify-center items-center overflow-hidden"
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <motion.div
-        className="relative w-[340px] h-[215px] sm:w-[450px] sm:h-[282px]"
-        initial={false}
+        className="relative w-full max-w-[450px] aspect-[1.58/1]"
+        style={{ transformStyle: "preserve-3d", perspective: "2000px" }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
-        style={{ transformStyle: "preserve-3d" }}
+        transition={{ duration: 0.6 }}
       >
-        {/* Front side */}
-        <div className="absolute inset-0 z-10" style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}>
-          <IdCardFront />
+        {/* FRONT */}
+        <div
+          className="absolute inset-0 w-full h-full flex justify-center items-center"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+          }}
+        >
+          {/* Сэрэмжлүүлэг: Хэрэв карт чинь 450px-ээс бага дэлгэц дээр хасагдаад байвал scale ашиглана */}
+          <div className="scale-[0.7] xs:scale-[0.8] sm:scale-100 origin-center transition-transform">
+            <IdCardFront />
+          </div>
         </div>
 
-        {/* Back side */}
-        <div 
-          className="absolute inset-0" 
-          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+        {/* BACK */}
+        <div
+          className="absolute inset-0 w-full h-full flex justify-center items-center"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+          }}
         >
-          <IdCardBack />
+          <div className="scale-[0.7] xs:scale-[0.8] sm:scale-100 origin-center transition-transform">
+            <IdCardBack />
+          </div>
         </div>
       </motion.div>
     </div>
