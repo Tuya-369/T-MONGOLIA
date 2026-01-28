@@ -1,20 +1,24 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function IdCardFront() {
+function IdCardContent() {
   const sp = useSearchParams();
   const [profileImg, setProfileImg] = useState(null);
-  const x = () => {
-    console.log("hi");
-  };
 
   useEffect(() => {
-    const img = localStorage.getItem("userProfileImg");
-    if (img) setProfileImg(img);
+    // Зөвхөн хөтөч дээр ажиллахыг баталгаажуулж,
+    // render-ийн дараа ажиллуулахын тулд setTimeout ашиглав
+    const savedImg = localStorage.getItem("userProfileImg");
+    if (savedImg) {
+      setTimeout(() => {
+        setProfileImg(savedImg);
+      }, 0);
+    }
   }, []);
 
+  // useSearchParams-аас ирэх утгуудыг тогтмол болгох
   const data = {
     ovog: (sp.get("ovog") || "БОРЖИГОН").toUpperCase(),
     surname: (sp.get("surname") || "ЛХАГВАСҮРЭН").toUpperCase(),
@@ -38,7 +42,6 @@ export default function IdCardFront() {
         backgroundRepeat: "no-repeat",
       }}
     >
-
       <div className="absolute top-[22px] left-[132px]">
         <p className="text-[#025C8C] text-[12.5px] font-extrabold">
           МОНГОЛ УЛСЫН ИРГЭНИЙ ҮНЭМЛЭХ
@@ -51,7 +54,7 @@ export default function IdCardFront() {
       <div className="absolute top-[75px] left-[26px] w-[105px] h-[132px] bg-white border border-[#D1D1D1] overflow-hidden">
         {profileImg ? (
           <img
-            src={profileImg || "/default-avatar.png"} // хоосон байхаас сэргийлнэ
+            src={profileImg}
             alt="Иргэний зураг"
             className="w-full h-full object-cover"
           />
@@ -60,7 +63,6 @@ export default function IdCardFront() {
         )}
       </div>
 
-      {/* Info */}
       <div className="absolute top-[68px] left-[146px] w-[270px] space-y-[4px]">
         <div>
           <p className={labelBase}>
@@ -68,28 +70,24 @@ export default function IdCardFront() {
           </p>
           <p className={valueText}>{data.ovog}</p>
         </div>
-
         <div>
           <p className={labelBase}>
             Эцэг/ эх /-ийн нэр <span className={englishLabel}>Surname</span>
           </p>
           <p className={valueText}>{data.surname}</p>
         </div>
-
         <div>
           <p className={labelBase}>
             Нэр <span className={englishLabel}>Given name</span>
           </p>
           <p className={valueText}>{data.givenName}</p>
         </div>
-
         <div>
           <p className={labelBase}>
             Хүйс <span className={englishLabel}>Sex</span>
           </p>
           <p className={valueText}>{data.sex}</p>
         </div>
-
         <div>
           <p className={labelBase}>
             Төрсөн он, сар, өдөр{" "}
@@ -97,8 +95,6 @@ export default function IdCardFront() {
           </p>
           <p className={valueText}>{data.dob}</p>
         </div>
-
-        {/* Civil ID */}
         <div className="mt-[-4px]">
           <p className={labelBase}>
             Иргэний бүртгэлийн дугаар{" "}
@@ -110,5 +106,17 @@ export default function IdCardFront() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function IdCardFront() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-[450px] h-[282px] bg-gray-200 animate-pulse rounded-[18px]" />
+      }
+    >
+      <IdCardContent />
+    </Suspense>
   );
 }
