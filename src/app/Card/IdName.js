@@ -3,22 +3,21 @@ import { useState, useEffect } from "react";
 
 export default function IdName() {
   const [profileImg, setProfileImg] = useState(null);
-  const [isMounted, setIsMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-    if (typeof window !== "undefined") {
+    // Render дууссаны дараа ажиллуулахын тулд requestAnimationFrame ашиглав
+    requestAnimationFrame(() => {
+      setMounted(true);
       const savedImg = localStorage.getItem("userProfileImg");
-      if (savedImg) {
-        setTimeout(() => setProfileImg(savedImg), 0);
-      }
-    }
+      if (savedImg) setProfileImg(savedImg);
+    });
   }, []);
 
-  if (!isMounted)
-    return (
-      <div className="w-[400px] h-[50px] bg-white rounded-lg animate-pulse" />
-    );
+  // Хэрэв хараахан "mount" болоогүй бол сервертэй ижилхэн хоосон бүтэц буцаана
+  if (!mounted) {
+    return <div className="w-[400px] h-[50px] opacity-0" />;
+  }
 
   return (
     <div className="w-[400px] h-[50px] bg-white flex items-center gap-3 p-2 rounded-lg shadow-sm border border-gray-100">
