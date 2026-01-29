@@ -31,7 +31,7 @@ export default function Login() {
     const { name, value } = e.target;
 
     if (name === "civilId") {
-      const onlyNums = value.replace(/\D/g, "").slice(0, 8);
+      const onlyNums = value.replace(/\D/g, "").slice(0, 12);
 
       setFormData((prev) => ({ ...prev, civilId: onlyNums }));
     } else {
@@ -54,7 +54,7 @@ export default function Login() {
   const goToCard = () => {
     const { civilId, dob, issueDate, ovog, givenName } = formData;
 
-    if (civilId.length !== 8 || !dob || !issueDate || !ovog || !givenName) {
+    if (civilId.length !== 12 || !dob || !issueDate || !ovog || !givenName) {
       alert("Мэдээллийг бүрэн гүйцэд бөглөнө үү!");
 
       return;
@@ -166,9 +166,9 @@ export default function Login() {
               name="civilId"
               value={formData.civilId}
               onChange={handleChange}
-              placeholder="8 оронтой тоо"
+              placeholder="12 оронтой тоо"
               className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-3.5 focus:border-cyan-500/50 focus:bg-white/[0.05] outline-none transition-all font-mono text-sm tracking-widest text-white placeholder:text-gray-700"
-              maxLength={8}
+              maxLength={12}
             />
           </div>
 

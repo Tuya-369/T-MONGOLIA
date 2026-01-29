@@ -30,13 +30,12 @@ export default function Page() {
         </button>
       </div>
 
-      <div className="w-full py-6 overflow-visible flex justify-center">
+      <div className="w-full py-6 overflow-visible flex flex-col items-center">
         <Swiper
           effect={"coverflow"}
           centeredSlides={true}
           loop={true}
           slidesPerView={"auto"}
-          loopedSlides={3}
           coverflowEffect={{
             rotate: 0,
             stretch: 0,
@@ -50,17 +49,24 @@ export default function Page() {
           {cards.map((id) => (
             <SwiperSlide
               key={id}
-              className="!w-[80%] max-w-[350px] flex justify-center items-center"
+              className="!w-[85%] max-w-[360px] flex justify-center items-center"
               onClick={() => setIsModalOpen(true)}
             >
               <div className="w-full flex justify-center">
-                <div className="scale-[0.9] sm:scale-100 transition-transform duration-300 origin-center">
+                <div className="w-full transition-transform duration-300 transform active:scale-95">
                   <IdCardFront />
                 </div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* Зөвхөн энэ хэсгийг нэмлээ */}
+        <div className="mt-8">
+          <button className="bg-white text-[#1A5CFF] text-[14px] font-bold px-10 py-3 rounded-2xl shadow-sm border border-gray-50 active:scale-95 transition-all">
+            Бүх бичиг баримтыг харах
+          </button>
+        </div>
       </div>
 
       <OrderFile />
@@ -75,18 +81,15 @@ export default function Page() {
             onClick={() => setIsModalOpen(false)}
           />
 
-          <div className="relative bg-white w-full rounded-t-[32px] px-4 pt-4 pb-10 shadow-2xl z-[110] animate-slide-up flex flex-col items-center">
-            {/* Handle */}
-            <div className="w-12 h-1 bg-[#E0E0E0] rounded-full mb-4" />
+          <div className="relative bg-white w-full rounded-t-[32px] px-2 pt-4 pb-10 shadow-2xl z-[110] animate-slide-up flex flex-col items-center">
+            <div className="w-12 h-1 bg-[#E0E0E0] rounded-full mb-6" />
 
-            {/* Картны хэсэг - py-4-ийг py-0 болгож зайг хасав */}
-            <div className="w-full flex justify-center py-0 overflow-hidden">
+            <div className="w-full flex justify-center py-0 px-2 overflow-visible">
               <IdFlipCard />
             </div>
 
-            {/* Товчлуурнууд */}
-            <div className="w-full space-y-3 mt-6">
-              <button className="w-full bg-[#1A5CFF] text-white font-bold py-4 rounded-[20px] text-[15px] active:scale-95 transition-all">
+            <div className="w-full px-5 space-y-3 mt-8">
+              <button className="w-full bg-[#1A5CFF] text-white font-bold py-4 rounded-[20px] text-[15px] active:scale-95 transition-all shadow-lg shadow-blue-200">
                 Лавлагаа авах
               </button>
               <button className="w-full bg-[#F4F9FF] text-[#1A5CFF] font-bold py-4 rounded-[20px] text-[15px] active:scale-95 transition-all">
@@ -96,9 +99,10 @@ export default function Page() {
           </div>
         </div>
       )}
+
       <style jsx global>{`
         .animate-slide-up {
-          animation: slideUp 0.3s ease-out forwards;
+          animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes slideUp {
           from {
@@ -108,7 +112,6 @@ export default function Page() {
             transform: translateY(0);
           }
         }
-        /* Swiper-ийг төвлөрүүлэх нэмэлт стиль */
         .swiper-wrapper {
           display: flex;
           align-items: center;
