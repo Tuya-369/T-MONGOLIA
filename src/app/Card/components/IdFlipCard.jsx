@@ -10,12 +10,11 @@ export default function IdFlipCard() {
 
   return (
     <div
-      className="w-full flex justify-center items-center"
+      className="w-full flex justify-center items-center overflow-hidden"
       onClick={() => setIsFlipped(!isFlipped)}
     >
       <motion.div
-        // max-w-г 450 байсныг 500 болгож сунгаад, үндсэн өргөнийг 92% болгов
-        className="relative w-[92vw] max-w-[500px] aspect-[1.58/1]"
+        className="relative w-full max-w-[450px] aspect-[1.58/1]"
         style={{ transformStyle: "preserve-3d", perspective: "2000px" }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.6 }}
@@ -28,8 +27,7 @@ export default function IdFlipCard() {
             WebkitBackfaceVisibility: "hidden",
           }}
         >
-          {/* scale-ийг бүрэн устгасан. IdCardFront-оо w-full болгож өгөх хэрэгтэй */}
-          <div className="w-full h-full">
+          <div className="scale-[0.7] xs:scale-[0.8] sm:scale-100 origin-center transition-transform">
             <IdCardFront />
           </div>
         </div>
@@ -43,7 +41,7 @@ export default function IdFlipCard() {
             transform: "rotateY(180deg)",
           }}
         >
-          <div className="w-full h-full">
+          <div className="scale-[0.7] xs:scale-[0.8] sm:scale-100 origin-center transition-transform">
             <IdCardBack />
           </div>
         </div>
