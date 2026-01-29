@@ -67,27 +67,25 @@ export default function Page() {
       <div className="h-28" />
       <Footer />
 
-      {/* Modal Section - Page.js */}
+      {/* Modal Section */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end justify-center px-4">
+        <div className="fixed inset-0 z-[100] flex items-end justify-center">
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-[4px]"
+            className="fixed inset-0 bg-black/40"
             onClick={() => setIsModalOpen(false)}
           />
 
-          <div className="relative bg-white w-full max-w-[450px] rounded-t-[32px] p-6 shadow-2xl z-[110] animate-slide-up flex flex-col items-center">
-            <div className="w-12 h-1 bg-[#E0E0E0] rounded-full mb-6" />
+          <div className="relative bg-white w-full rounded-t-[32px] px-4 pt-4 pb-10 shadow-2xl z-[110] animate-slide-up flex flex-col items-center">
+            {/* Handle */}
+            <div className="w-12 h-1 bg-[#E0E0E0] rounded-full mb-4" />
 
-            <p className="text-center font-bold text-[#1E1E1E] text-[17px] mb-4">
-              Иргэний үнэмлэх
-            </p>
-
-            {/* Картны хэсэг - Энд w-full flex-center байгаа тул эвдрэхгүй */}
-            <div className="w-full flex justify-center py-4">
+            {/* Картны хэсэг - py-4-ийг py-0 болгож зайг хасав */}
+            <div className="w-full flex justify-center py-0 overflow-hidden">
               <IdFlipCard />
             </div>
 
-            <div className="w-full space-y-3 mt-6 pb-6">
+            {/* Товчлуурнууд */}
+            <div className="w-full space-y-3 mt-6">
               <button className="w-full bg-[#1A5CFF] text-white font-bold py-4 rounded-[20px] text-[15px] active:scale-95 transition-all">
                 Лавлагаа авах
               </button>
